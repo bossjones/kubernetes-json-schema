@@ -1,0 +1,5 @@
+cat _definitions.json | jq '.definitions | to_entries | [.[]
+        | if .value."x-kubernetes-group-version-kind"[0].version then .value.properties.apiVersion.enum = [.value."x-kubernetes-group-version-kind"[0].version] else . end
+        | if .value."x-kubernetes-group-version-kind"[0].kind then .value.properties.kind.enum = [.value."x-kubernetes-group-version-kind"[0].kind] else . end
+    ] | from_entries | {definitions: .}' | less
+
