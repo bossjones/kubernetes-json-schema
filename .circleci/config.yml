@@ -29,7 +29,7 @@ jobs:
           name: Build schema
           command: |
             . venv/bin/activate
-            openapi2jsonschema -o "v1.13.0-standalone-strict" --kubernetes --stand-alone --strict https://raw.githubusercontent.com/kubernetes/kubernetes/v1.13.0/api/openapi-spec/swagger.json
+            openapi2jsonschema -o "test-output" --kubernetes --stand-alone --strict https://raw.githubusercontent.com/kubernetes/kubernetes/v1.13.0/api/openapi-spec/swagger.json
       - store_artifacts:
-          path: v1.13.0-standalone-strict
-          destination: v1.13.0-standalone-strict
+          path: test-output
+          destination: test-output
