@@ -14,19 +14,21 @@ jobs:
 #          - v1-dependencies-{{ checksum "requirements.txt" }}
 #          # fallback to using the latest cache if no exact match is found
 #          - v1-dependencies-
-#      - run:
-#          name: install dependencies
-#          command: |
-#            python3 -m venv venv
-#            . venv/bin/activate
+      - run:
+          name: install dependencies
+          command: |
+            git clone https://github.com/jburianek/openapi2jsonschema.git
+            python3 -m venv venv
+            . venv/bin/activate
 #            pip install -r requirements.txt
+            pip install -e openapi2jsonschema
 #      - save_cache:
 #          paths:
 #            - ./venv
 #          key: v1-dependencies-{{ checksum "requirements.txt" }}
       - run:
-          name: First test
-          command: echo "foo" > blah.txt
+          name: Build schema
+          command: openapi2jsonschema -o "v1.13.0-standalone-strict" --kubernetes --stand-alone --strict https://raw.githubusercontent.com/kubernetes/kubernetes/v1.13.0/api/openapi-spec/swagger.json
       - store_artifacts:
-          path: blah.txt
-          destination: blah.txt
+          path: v1.13.0-standalone-strict
+          destination: v1.13.0-standalone-strict
