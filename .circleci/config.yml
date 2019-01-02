@@ -23,5 +23,5 @@ jobs:
             git config --global user.email "nobody@example.com"
             git config --global user.name "CircleCI Deploy Robot"
             git add output/
-	          git commit -m "Automated build"
+            git commit -m "Automated build"
             git push origin
