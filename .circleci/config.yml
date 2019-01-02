@@ -8,29 +8,12 @@ jobs:
         - circleci
     steps:
       - checkout
-      # Download and cache dependencies
-#      - restore_cache:
-#          keys:
-#          - v1-dependencies-{{ checksum "requirements.txt" }}
-#          # fallback to using the latest cache if no exact match is found
-#          - v1-dependencies-
       - run:
-          name: install dependencies
-          command: |
-            git clone https://github.com/jburianek/openapi2jsonschema.git
-            git -C openapi2jsonschema checkout kube-properties
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install -e openapi2jsonschema
-#      - save_cache:
-#          paths:
-#            - ./venv
-#          key: v1-dependencies-{{ checksum "requirements.txt" }}
+          name: Setup environment
+          command: make venv
       - run:
           name: Build schema
-          command: |
-            . venv/bin/activate
-            openapi2jsonschema -o "test-output" --kubernetes --stand-alone --strict https://raw.githubusercontent.com/kubernetes/kubernetes/v1.13.0/api/openapi-spec/swagger.json
+          command: make v1.13.1
       - store_artifacts:
-          path: test-output
-          destination: test-output
+          path: output
+          destination: output
