@@ -6,3 +6,5 @@ Scripts
 pip-selfcheck.json
 tcl
 __pycache__
+output/
+venv/
