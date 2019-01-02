@@ -16,7 +16,7 @@ jobs:
           command: make venv
       - run:
           name: Build schema
-          command: make all
+          command: make build-all
       - run:
           name: Deploy new schema
           command: make deploy
