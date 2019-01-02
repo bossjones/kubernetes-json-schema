@@ -2,6 +2,7 @@ VERSIONS := $(shell cat kube-versions)
 
 schema = https://raw.githubusercontent.com/kubernetes/kubernetes/$@/api/openapi-spec/swagger.json
 prefix = https://raw.githubusercontent.com/TODO------REPO-GOES-HERE/master/$@/_definitions.json
+#TODO: repo arg
 
 .PHONY: help kube-versions clean $(VERSIONS)
 
@@ -16,13 +17,16 @@ kube-versions:
 		| sort --version-sort \
 		> kube-versions
 
+#TODO: test
+
 venv:
 	python3 -m venv venv
 	. venv/bin/activate; \
 		pip install git+https://github.com/jburianek/openapi2jsonschema.git@kube-properties
 
 clean:
-	rm -rf venv
+	rm -rf venv/
+	rm -rf output/
 
 all: $(VERSIONS)
 
@@ -31,6 +35,7 @@ $(VERSIONS): venv
 	mkdir -p output
 	. venv/bin/activate; \
 		openapi2jsonschema -o "output/$@-standalone-strict" --kubernetes --stand-alone --strict "$(schema)"; \
-		openapi2jsonschema -o "output/$@-standalone" --kubernetes --stand-alone "$(schema)"; \
-		openapi2jsonschema -o "output/$@-local" --kubernetes "$(schema)"; \
-		openapi2jsonschema -o "output/$@" --kubernetes --prefix "$(prefix)" "$(schema)"
+		echo openapi2jsonschema -o "output/$@-standalone" --kubernetes --stand-alone "$(schema)"; \
+		echo openapi2jsonschema -o "output/$@-local" --kubernetes "$(schema)"; \
+		echo openapi2jsonschema -o "output/$@" --kubernetes --prefix "$(prefix)" "$(schema)"
+# TODO: remove above echos
