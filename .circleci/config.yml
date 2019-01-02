@@ -19,4 +19,7 @@ jobs:
           command: make build-all
       - run:
           name: Deploy new schema
-          command: make deploy
+          command: |
+            git config --global user.email "nobody@example.com"
+            git config --global user.name "CircleCI Deploy Robot"
+            make deploy
