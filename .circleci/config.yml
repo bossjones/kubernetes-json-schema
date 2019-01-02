@@ -7,13 +7,16 @@ jobs:
       only:
         - circleci
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "64:f5:f6:57:a0:6a:84:20:59:fe:3e:ef:8a:cc:82:5f"
       - checkout
       - run:
           name: Setup environment
           command: make venv
       - run:
           name: Build schema
-          command: make v1.13.1
-      - store_artifacts:
-          path: output
-          destination: output
+          command: make all
+      - run:
+          name: Deploy new schema
+          command: make deploy

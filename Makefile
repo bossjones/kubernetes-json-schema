@@ -4,10 +4,11 @@ schema = https://raw.githubusercontent.com/kubernetes/kubernetes/$@/api/openapi-
 prefix = https://raw.githubusercontent.com/TODO------REPO-GOES-HERE/master/$@/_definitions.json
 #TODO: repo arg
 
+#TODO
 .PHONY: help kube-versions clean $(VERSIONS)
 
 help:
-	@echo Supported targets: help venv clean all $(VERSIONS)
+	@echo Supported targets: help venv clean build-all $(VERSIONS)
 
 kube-versions:
 	git ls-remote --refs https://github.com/kubernetes/kubernetes.git \
@@ -24,11 +25,7 @@ venv:
 	. venv/bin/activate; \
 		pip install git+https://github.com/jburianek/openapi2jsonschema.git@kube-properties
 
-clean:
-	rm -rf venv/
-	rm -rf output/
-
-all: $(VERSIONS)
+build-all: $(VERSIONS)
 
 $(VERSIONS): venv
 	@echo "Building JSON schema for Kubernetes version $@"
@@ -39,3 +36,11 @@ $(VERSIONS): venv
 		echo openapi2jsonschema -o "output/$@-local" --kubernetes "$(schema)"; \
 		echo openapi2jsonschema -o "output/$@" --kubernetes --prefix "$(prefix)" "$(schema)"
 # TODO: remove above echos
+
+deploy:
+	git add output/
+	git commit -m "Automated build"
+	git push
+
+clean:
+	rm -rf venv/
