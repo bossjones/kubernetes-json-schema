@@ -24,4 +24,4 @@ jobs:
             git config --global user.name "CircleCI Deploy Robot"
             git add output/
             git commit -m "Automated build"
-            git push origin
+            git push origin circleci
