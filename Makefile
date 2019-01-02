@@ -4,10 +4,10 @@ schema = https://raw.githubusercontent.com/kubernetes/kubernetes/$@/api/openapi-
 prefix = https://raw.githubusercontent.com/TODO------REPO-GOES-HERE/master/$@/_definitions.json
 #TODO: repo arg
 
-.PHONY: help kube-versions deploy clean $(VERSIONS)
+.PHONY: help kube-versions clean $(VERSIONS)
 
 help:
-	@echo Supported targets: help kube-versions venv build-all deploy clean $(VERSIONS)
+	@echo Supported targets: help kube-versions venv build-all clean $(VERSIONS)
 
 kube-versions:
 	git ls-remote --refs https://github.com/kubernetes/kubernetes.git \
@@ -35,11 +35,6 @@ $(VERSIONS): venv
 		echo openapi2jsonschema -o "output/$@-local" --kubernetes "$(schema)"; \
 		echo openapi2jsonschema -o "output/$@" --kubernetes --prefix "$(prefix)" "$(schema)"
 # TODO: remove above echos
-
-deploy:
-	git add output/
-	git commit -m "Automated build"
-	git push
 
 clean:
 	rm -rf venv/
